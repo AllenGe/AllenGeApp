@@ -24,6 +24,11 @@ struct LandmarkRow: View {
             Text(landmark.name)
             
             Spacer()
+            
+            if landmark.isFavorite {
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.yellow)
+            }
         }
     }
 }
@@ -37,10 +42,10 @@ struct LandmarkRow: View {
 
 #Preview() {
     if /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/ {
-        LandmarkRow(landmark: landmarks[0])
-        LandmarkRow(landmark: landmarks[1])
+        LandmarkRow(landmark: ModelData().landmarks[0])
+        LandmarkRow(landmark: ModelData().landmarks[1])
     } else {
-        /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+        EmptyView()
     }
 }
 

@@ -23,6 +23,7 @@ struct Landmark: Hashable, Codable, Identifiable {
         Image(imageName)
     }
 
+    var isFavorite: Bool
 
     private var coordinates: Coordinates
     var locationCoordinate: CLLocationCoordinate2D {

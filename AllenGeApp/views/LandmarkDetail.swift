@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct LandmarkDetail: View {
+    @Environment(ModelData.self) var modelData
+    
     var landmark: Landmark
- 
-    var body: some View {
+    var landmarkIndex: Int {
+        modelData.landmarks.firstIndex(where: { $0.id == landmark.id })!
+    }
 
+    var body: some View {
         
+
+        @Bindable var modelData = modelData //@Bindable 属性包装器：在 LandmarkDetail 视图的 body 中，使用 @Bindable var modelData = modelData 来创建一个可绑定的 modelData 实例。这让你可以直接在视图中修改 modelData 的属性，并且 SwiftUI 会自动处理数据绑定和视图更新。
+
         VStack {
             MapView(coordinate: landmark.locationCoordinate).frame(height:300)
             
@@ -24,7 +31,11 @@ struct LandmarkDetail: View {
             
             
             VStack(alignment: .leading) {
-                Text(landmark.name).font(.title).fontWeight(.bold).foregroundStyle(.red)
+                HStack {
+                    Text(landmark.name).font(.title).fontWeight(.bold).foregroundStyle(.red)
+                    FavoriteButton(isSet: $modelData.landmarks[landmarkIndex].isFavorite)
+
+                }
                 HStack {
                     Text(landmark.city).font(.subheadline)
                     Spacer()
@@ -33,7 +44,7 @@ struct LandmarkDetail: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 
-                Divider()
+                Divider().padding(EdgeInsets.init(top: 4, leading:0, bottom: 4, trailing: 0))
                 
                 Text(landmark.park)
                     .font(.title2)
@@ -43,11 +54,16 @@ struct LandmarkDetail: View {
 
             Spacer()
         }
+        .navigationTitle(landmark.name)
+        .navigationBarTitleDisplayMode(.inline)
+
 
     }
 }
 
-//#Preview {
-//    LandmarkDetail(landmark: landmarks[0])
-//
-//}
+#Preview {
+    let modelData = ModelData()
+
+    return LandmarkDetail(landmark: modelData.landmarks[0]).environment(modelData)
+
+}
