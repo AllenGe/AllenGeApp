@@ -26,7 +26,7 @@ struct AllenGeAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LandmarkList()
+            LandmarkList().environment(ModelData())
         }
 //        .modelContainer(sharedModelContainer)
     }
